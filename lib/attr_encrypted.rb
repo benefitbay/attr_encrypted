@@ -304,6 +304,8 @@ module AttrEncrypted
   def method_missing(method, *arguments, &block)
     if method.to_s =~ /^((en|de)crypt)_(.+)$/ && attr_encrypted?($3)
       send("attr_encrypted_#{$1}", $3, *arguments)
+    elsif method.to_s =~ /^((en|de)crypt)$/ && attr_encrypted?(arguments.first)
+      send("attr_encrypted_#{$1}", *arguments)
     else
       super
     end
